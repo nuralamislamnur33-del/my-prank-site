@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ SYSTEM CRITICAL ALERT ⚡</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #header {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px red;
+            margin-bottom: 20px;
+        }
+
+        #terminal {
+            background: rgba(0, 20, 0, 0.9);
+            border: 1px solid #0f0;
+            padding: 15px;
+            height: 70vh;
+            overflow-y: hidden;
+            box-shadow: 0 0 20px #0f0;
+            border-radius: 10px;
+        }
+
+        .line {
+            margin-bottom: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .highlight { color: #fff; font-weight: bold; }
+        .warning { color: yellow; }
+        .danger { color: red; }
+
+        /* ব্লঙ্কিং কার্সর */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #0f0;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body onclick="startHack()">
+
+    <div id="header">⚠️ WARNING: EXTERNAL ACCESS DETECTED ⚠️</div>
+    
+    <div id="terminal">
+        <div id="log"></div>
+        <span class="cursor"></span>
+    </div>
+
+    <p style="text-align: center; font-size: 0.8rem; color: #444;">Click anywhere to bypass security...</p>
+
+    <script>
+        const logElement = document.getElementById('log');
+        const messages = [
+            "> Initializing Cyber-Link v4.0...",
+            "> Connecting to remote IP: 192.168.0.1...",
+            "> [OK] CONNECTION ESTABLISHED",
+            "> <span class='warning'>Bypassing Firewall... 45%</span>",
+            "> <span class='warning'>Bypassing Firewall... 100%</span>",
+            "> <span class='highlight'>Accessing System Files...</span>",
+            "> [INFO] Fetching User Contacts...",
+            "> [INFO] Accessing Gallery - <span class='danger'>Found 482 Photos</span>",
+            "> <span class='danger'>DOWNLOADING PRIVATE DATA... [22%]</span>",
+            "> Extracting Messenger Chat Logs...",
+            "> Remote Camera Access: <span class='highlight'>REQUESTING...</span>",
+            "> [CRITICAL] Memory Overload detected!",
+            "> <span class='danger'>ENCRYPTING LOCAL STORAGE...</span>",
+            "> Sending Data to Server: <span class='highlight'>insight_blueprint_server</span>",
+            "> System Lock-down in T-minus 10 seconds...",
+            "> STATUS: SUCCESSFUL BREACH."
+        ];
+
+        let index = 0;
+
+        function startHack() {
+            // ফুল স্ক্রিন করার চেষ্টা
+            let doc = window.document.documentElement;
+            if (doc.requestFullscreen) doc.requestFullscreen();
+            
+            if (index === 0) {
+                runLines();
+            }
+        }
+
+        function runLines() {
+            if (index < messages.length) {
+                const line = document.createElement('div');
+                line.className = 'line';
+                line.innerHTML = messages[index];
+                logElement.appendChild(line);
+                
+                // স্ক্রল সবসময় নিচে রাখা
+                const terminal = document.getElementById('terminal');
+                terminal.scrollTop = terminal.scrollHeight;
+                
+                index++;
+                setTimeout(runLines, Math.random() * 1000 + 500); // র‍্যান্ডম সময় পর পর লাইন আসবে
+            }
+        }
+
+        // ব্যাক বাটন আটকানোর ট্রিক
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function() {
+            window.history.pushState(null, null, window.location.href);
+            alert("FATAL ERROR: Navigation Blocked by Remote Admin!");
+        };
+    </script>
+</body>
+</html>
