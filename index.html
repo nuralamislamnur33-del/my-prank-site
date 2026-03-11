@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ SYSTEM CRITICAL ALERT ⚡</title>
     <style>
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; padding: 20px; overflow: hidden; height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; padding: 20px; overflow: hidden; height: 100vh; display: flex; flex-direction: column; justify-content: center; cursor: pointer; }
         #header { color: red; font-weight: bold; text-align: center; font-size: 1.2rem; text-shadow: 0 0 10px red; margin-bottom: 15px; animation: flash 1s infinite; }
         @keyframes flash { 50% { opacity: 0; } }
-        #terminal { background: rgba(0, 20, 0, 0.9); border: 1px solid #0f0; padding: 15px; height: 65vh; overflow-y: hidden; box-shadow: 0 0 20px #0f0; border-radius: 10px; font-size: 0.9rem; }
+        #terminal { background: rgba(0, 20, 0, 0.9); border: 1px solid #0f0; padding: 15px; height: 65vh; overflow-y: hidden; box-shadow: 0 0 20px #0f0; border-radius: 10px; font-size: 0.9rem; position: relative; }
         .line { margin-bottom: 5px; }
         .danger { color: #ff0000; font-weight: bold; }
         .cursor { display: inline-block; width: 8px; height: 15px; background: #0f0; animation: blink 0.8s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
+        #click-me { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; border: 2px solid white; padding: 10px; background: rgba(255,0,0,0.5); z-index: 10; font-weight: bold; }
     </style>
 </head>
 <body onclick="startHack()">
+
+    <div id="click-me">CLICK TO REPAIR SYSTEM</div>
 
     <div id="header">⚠️ DEVICE OVERHEATING - SYSTEM BREACHED ⚠️</div>
     
@@ -24,30 +27,25 @@
         <span class="cursor"></span>
     </div>
 
-    <p style="text-align: center; font-size: 0.7rem; color: #333;">Critical Error: Protocol 0x8892</p>
-
     <script>
         const logElement = document.getElementById('log');
+        const clickMe = document.getElementById('click-me');
         const messages = [
             "> Initializing Cyber-Link v4.0...",
             "> Connection established with Master Server",
-            "> <span class='danger'>Bypassing Android Security Patch... 100%</span>",
+            "> <span class='danger'>Bypassing Security... 100%</span>",
             "> Accessing Internal Storage... [GRANTED]",
-            "> Downloading DCIM/Camera/IMG_0492.jpg...",
-            "> <span class='danger'>DELETING SYSTEM32 FILES...</span>",
-            "> Remote Microphone: <span style='color:white'>LISTENING...</span>",
-            "> Uploading Contacts to DarkNet... [DONE]",
-            "> Overriding Touch Controls...",
+            "> Downloading Private Data...",
+            "> <span class='danger'>DELETING SYSTEM FILES...</span>",
+            "> Remote Microphone: LISTENING...",
+            "> Uploading Contacts to DarkNet...",
             "> <span class='danger'>HARDWARE ENCRYPTION STARTED...</span>",
-            "> ERROR: Battery Thermal Runaway imminent!",
-            "> Remote Access: ADMIN CONTROL GRANTED",
             "> STATUS: DEVICE CAPTURED."
         ];
 
         let index = 0;
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // বিপ সাউন্ড তৈরির ফাংশন
         function playBeep(freq, duration) {
             let osc = audioCtx.createOscillator();
             let gain = audioCtx.createGain();
@@ -60,9 +58,17 @@
         }
 
         function startHack() {
+            // সাউন্ড অ্যাক্টিভেট করা
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
             // ফুল স্ক্রিন করা
             let doc = window.document.documentElement;
             if (doc.requestFullscreen) doc.requestFullscreen();
+
+            // বোতাম লুকিয়ে ফেলা
+            clickMe.style.display = 'none';
             
             if (index === 0) {
                 runLines();
@@ -76,17 +82,12 @@
                 line.innerHTML = messages[index];
                 logElement.appendChild(line);
                 
-                // ভাইব্রেশন এবং শব্দ (মাঝে মাঝে)
-                if (index % 3 === 0) {
-                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    playBeep(440, 200);
-                }
+                // ভাইব্রেশন ও বিপ
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                playBeep(600, 100);
 
-                const terminal = document.getElementById('terminal');
-                terminal.scrollTop = terminal.scrollHeight;
-                
                 index++;
-                setTimeout(runLines, Math.random() * 800 + 400);
+                setTimeout(runLines, 800);
             }
         }
 
@@ -95,7 +96,7 @@
         window.onpopstate = function() {
             window.history.pushState(null, null, window.location.href);
             if (navigator.vibrate) navigator.vibrate(500);
-            alert("FATAL ERROR: Navigation Blocked! Remote Access Active.");
+            alert("FATAL ERROR: System is Locked!");
         };
     </script>
 </body>
